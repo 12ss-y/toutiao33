@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 //1. 下载vant
 //1.1 - yarn add vant@latest-v2 -S
 
@@ -12,7 +13,8 @@
 // 2.1 yarn add amfe-flexible
 
 // 3.下载yarn add postem
-export default {};
+export default {
+};
 </script>
 
 <style scoped>

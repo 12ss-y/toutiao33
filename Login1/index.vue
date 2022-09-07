@@ -64,8 +64,6 @@ import { mobileRules, codeRules } from "./rule";
 // 按需引入API
 import { login, sendCondeAPI } from "@/api";
 
-import {mapMutations} from 'vuex'
-
 export default {
   data() {
     return {
@@ -77,9 +75,6 @@ export default {
     };
   },
   methods: {
-
-    ...mapMutations(['SET_TOKEN']),
-
     async onSubmit() {
       //   console.log("submit", values);
       //   Submit事件只有表单效验通过以后会被触发
@@ -98,12 +93,8 @@ export default {
       try {
         //   登录
         const { data } = await login(this.mobile, this.code);
-        // console.log(data);
-        // 将token存进vuex
-        this.SET_TOKEN(data.data)
-        // 跳转路由
-        this.$router.push('/profile')
-        // 成功的提示
+        console.log(data);
+        // 成功提示
         this.$toast.success("登录成功");
       } catch (error) {
         // 细分一下失败验证
