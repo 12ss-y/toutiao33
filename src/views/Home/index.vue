@@ -14,23 +14,39 @@
         <!-- 文章详情 -->
         <article-list :id="item.id"></article-list>
       </van-tab>
-      
 
-      <span class="toutiao toutiao-gengduo"></span>
+      <span @click="isShow = true" class="toutiao toutiao-gengduo"></span>
     </van-tabs>
+
+    <!-- 弹出层 -->
+    <van-popup
+      closeable
+      close-icon-position="top-left"
+      v-model="isShow"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <!-- <channel-edit :myChannels="channels"></channel-edit> -->
+      <channel-edit
+        @change-active="[(isShow = false), (active = $event)]"
+        :my-channels="channels"
+      ></channel-edit>
+    </van-popup>
   </div>
 </template>
 
 <script>
 // 引入API
+import ChannelEdit from "./components/ChannelEdit.vue";
 import { getChannelAPI } from "@/api";
-import ArticleList from '@/views/Home/components/ArticleList.vue';
+import ArticleList from "./components/ArticleList.vue";
 export default {
-  components: { ArticleList },
+  components: { ArticleList, ChannelEdit },
   data() {
     return {
       active: 0,
-      channels: []
+      channels: [],
+      isShow: false,
     };
   },
 
@@ -44,13 +60,13 @@ export default {
       try {
         const { data } = await getChannelAPI();
         // console.log(data);
-        this.channels = data.data.channels
+        this.channels = data.data.channels;
       } catch (error) {
         if (!error.reponse) {
-          throw error
+          throw error;
         } else {
-          const status = error.reponse.status
-          status ===507 && this.$toast.fail('服务端异常，请刷新')
+          const status = error.reponse.status;
+          status === 507 && this.$toast.fail("服务端异常，请刷新");
         }
       }
     },

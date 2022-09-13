@@ -1,6 +1,6 @@
 // user.js划分是跟后端接口文档
 // 请求登录
-// 引入request。js
+// 引入request.js
 import request from '@/utils/request'
 // import store from '@/store'
 

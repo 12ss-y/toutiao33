@@ -4,7 +4,6 @@
     <header>
       <!-- 已登录的结构 -->
       <div class="login banner" v-if="isLogin">
-        <van-row></van-row>
         <van-row>
           <van-col span="12">
             <van-row
