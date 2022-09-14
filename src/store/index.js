@@ -20,12 +20,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [ceratPersistedState({
     key: 'HEIMA_TOUTIAO',
-    reducer({ tokenObj }) {
-      return {tokenObj}
+    reducer({ tokenObj,myChannels }) {
+      return {tokenObj,myChannels}
     }
   })],
   state: {
     tokenObj: {},
+    myChannels:[],
     // a: 1
   },
   getters: {
@@ -37,6 +38,14 @@ export default new Vuex.Store({
     SET_TOKEN(state, token) {
       // 将token存在vuex
       state.tokenObj = token
+    },
+
+    /**
+     * 
+     * @param {Array} channels 删除或者添加后的最新的channel
+     */
+    SET_MY_CHANNELS(state, channels) {
+      state.myChannels = channels
     }
   }
 })

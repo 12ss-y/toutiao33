@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <!-- 二级路由 -->
     <router-view></router-view>
 
@@ -30,7 +29,7 @@
       <van-tabbar-item to="/profile">
         <template #icon>
           <span class="toutiao toutiao-wode"></span>
-          <span class="text">{{isLogin ? '我的' : '未登录'}}</span>
+          <span class="text">{{ isLogin ? "我的" : "未登录" }}</span>
         </template>
         <!-- <span>我的</span> -->
       </van-tabbar-item>
@@ -39,36 +38,34 @@
 </template>
 
 <script>
-
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-    data() {
-        return {
-        }
-    },
-    computed: {
-      ...mapGetters(['isLogin'])
-    }
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapGetters(["isLogin"]),
+  },
 };
 </script>
 
 <style scoped lang="less">
 .tabbar {
-    :deep(.van-tabbar-item__icon) {
-        display: flex;
-        height: 100%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-    }
+  :deep(.van-tabbar-item__icon) {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
 
-    .toutiao {
-        font-size: 35px;
-    }
+  .toutiao {
+    font-size: 35px;
+  }
 
-    .text {
-        font-size: 20px;
-    }
+  .text {
+    font-size: 20px;
+  }
 }
 </style>
