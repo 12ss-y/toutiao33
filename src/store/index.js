@@ -18,15 +18,18 @@ Vue.use(Vuex)
 // reducer:指定持久化哪些数据.函数，return一个对象，对象就作为存储的value
 // - 参数state
 export default new Vuex.Store({
-  plugins: [ceratPersistedState({
-    key: 'HEIMA_TOUTIAO',
-    reducer({ tokenObj,myChannels }) {
-      return {tokenObj,myChannels}
-    }
-  })],
+  plugins: [
+    ceratPersistedState({
+      key: 'HEIMA_TOUTIAO',
+      reducer({ tokenObj, myChannels, histories }) {
+        return { tokenObj, myChannels, histories }
+      }
+    })
+  ],
   state: {
     tokenObj: {},
-    myChannels:[],
+    myChannels: [],
+    histories: []
     // a: 1
   },
   getters: {
@@ -41,11 +44,19 @@ export default new Vuex.Store({
     },
 
     /**
-     * 
+     *
      * @param {Array} channels 删除或者添加后的最新的channel
      */
     SET_MY_CHANNELS(state, channels) {
       state.myChannels = channels
+    },
+
+    /**
+     *
+     * @param {*} histories 删除或者添加以后的新的搜索历史
+     */
+    SET_HISTORIES(state, histories) {
+      state.histories = histories
     }
   }
 })

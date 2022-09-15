@@ -3,7 +3,14 @@
     <!-- 搜索栏 -->
     <van-nav-bar class="navbar">
       <template #title>
-        <van-button icon="search" size="small" round block>搜索</van-button>
+        <van-button
+          icon="search"
+          size="small"
+          round
+          block
+          @click="$router.push('/search')"
+          >搜索</van-button
+        >
       </template>
     </van-nav-bar>
 
@@ -26,7 +33,7 @@
       <ChannelEdit
         v-if="isShow"
         :my-channels="channels"
-        @change-active=";[(isShow = false), (active = $event)]"
+        @change-active="[(isShow = false), (active = $event)];"
         @del-channel="delChannel"
         @add-channel="addChannel"
       ></ChannelEdit>
@@ -35,104 +42,104 @@
 </template>
 
 <script>
-import { getChannelAPI, delChannelAPI, addChannelAPI } from '@/api'
-import ArticalList from './components/ArticleList.vue'
-import ChannelEdit from './components/ChannelEdit.vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { getChannelAPI, delChannelAPI, addChannelAPI } from "@/api";
+import ArticalList from "./components/ArticleList.vue";
+import ChannelEdit from "./components/ChannelEdit.vue";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   components: {
     ArticalList,
-    ChannelEdit
+    ChannelEdit,
   },
   data() {
     return {
       active: 0,
       channels: [],
-      isShow: false
-    }
+      isShow: false,
+    };
   },
   created() {
-    this.initChannles()
+    this.initChannles();
   },
   // 1 ?? ==>相当于||，常用于语句
   // 2. ?. ==>可选链操作符，？前面是undifined,那么不会往后取值
   computed: {
-    ...mapGetters(['isLogin'])
+    ...mapGetters(["isLogin"]),
   },
   methods: {
-    ...mapMutations(['SET_MY_CHANNELS']),
+    ...mapMutations(["SET_MY_CHANNELS"]),
 
     initChannles() {
       if (this.isLogin) {
         // 1.如果你登录了
         // -channels 应该发请求获取用户自己的频道
-        this.getChannel()
+        this.getChannel();
       } else {
         // 2. 未登录
         // - 1. 本地存储里有数据 channels用本地存储
         // - 2. 本地存储没有数据 发送请求，获取默认的批到数据
-        const myChannels = this.$store.state.myChannels
+        const myChannels = this.$store.state.myChannels;
         if (myChannels.length === 0) {
-          this.getChannel()
+          this.getChannel();
         } else {
-          this.channels = myChannels
+          this.channels = myChannels;
         }
       }
     },
     async getChannel() {
       try {
-        const { data } = await getChannelAPI()
-        this.channels = data.data.channels
+        const { data } = await getChannelAPI();
+        this.channels = data.data.channels;
 
         // console.log(data.data)
       } catch (error) {
         // js的错误，给程序员，axios状态码507，提示用户刷新
         if (!error.response) {
-          throw error
+          throw error;
         } else {
-          const status = error.response.status
-          status === 507 && this.$toast.fail('服务端异常，请刷新')
+          const status = error.response.status;
+          status === 507 && this.$toast.fail("服务端异常，请刷新");
         }
       }
     },
     async delChannel(id) {
       try {
-        const newChannels = this.channels.filter((item) => item.id !== id)
+        const newChannels = this.channels.filter((item) => item.id !== id);
         if (this.isLogin) {
-          await delChannelAPI(id)
+          await delChannelAPI(id);
         } else {
-          this.SET_MY_CHANNELS(newChannels)
+          this.SET_MY_CHANNELS(newChannels);
         }
-        this.channels = newChannels
-        this.$toast.success('删除频道成功')
+        this.channels = newChannels;
+        this.$toast.success("删除频道成功");
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          this.$toast.fail('请登录再删除~')
+          this.$toast.fail("请登录再删除~");
         } else {
-          throw error
+          throw error;
         }
       }
     },
     async addChannel(channel) {
       try {
         if (this.isLogin) {
-          await addChannelAPI(channel.id, this.channels.length)
+          await addChannelAPI(channel.id, this.channels.length);
         } else {
-          this.SET_MY_CHANNELS([...this.channels, channel])
+          this.SET_MY_CHANNELS([...this.channels, channel]);
         }
 
-        this.channels.push(channel)
-        this.$toast.success('添加频道成功')
+        this.channels.push(channel);
+        this.$toast.success("添加频道成功");
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          this.$toast.fail('请登录在删除')
+          this.$toast.fail("请登录在删除");
         } else {
-          throw error
+          throw error;
         }
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">
@@ -186,14 +193,14 @@ export default {
   opacity: 0.6;
   border-bottom: 1px solid #eee;
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
     height: 70%;
     // width: 1px;
-    background-image: url('~@/assets/images/gradient-gray-line.png');
+    background-image: url("~@/assets/images/gradient-gray-line.png");
   }
 }
 </style>
